@@ -2,7 +2,7 @@ module TicTacToe
 
     class Game
         @@someone_won = false
-
+        @@array_table = [['_','_','_'],['_','_','_'],['_','_','_']]
         def initialize
 
             puts "Welcome to Tic-Tac-Toe!"
@@ -42,10 +42,17 @@ module TicTacToe
         end
 
         def print_table()
-
+            @array_table.each do |row|
+                puts "| #{row[0]} #{row[1]} #{row[2]} |"
+            end
+            return "Current state"
         end
 
         def update_table()
+            
+        end
+
+        def check_winner()
 
         end
 
@@ -68,3 +75,4 @@ Game.new()
 
 # alvaro = Player.new('Alvaro','X')
 # puts alvaro.name
+puts " #{table[0]} \n #{table[1]} \n #{table[2]}"
