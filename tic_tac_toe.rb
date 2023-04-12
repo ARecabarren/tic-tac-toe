@@ -43,7 +43,6 @@ module TicTacToe
                 #Check correct input
                 @correct_input = false
                 until @correct_input
-                    puts "In loop now"
                     user_move = gets.chomp
                     if correct_input?(user_move)
 
@@ -64,15 +63,21 @@ module TicTacToe
 
                 end
 
-                switch_players
-                @table.print_table
-                puts "I checked inputs and updated table and class variables"
                 @@someone_won = @table.check_winner
 
+                unless @@someone_won
+                    switch_players
+                end
                 
-
-
+                @table.print_table
+                
             end
+
+            if @@someone_won
+                puts "We have a winner!"
+                puts "Congratulations #{@current_turn.name}"
+            else
+                puts "It's a tie..."
             
         end 
 
@@ -104,8 +109,8 @@ module TicTacToe
         end
 
         def switch_players
-            @current_player = (@current_player == @player1) ? @player2 : @player1
-          end
+            @current_turn = (@current_turn == @player1) ? @player2 : @player1
+        end
 
 
     end
