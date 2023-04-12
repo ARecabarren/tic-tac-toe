@@ -44,7 +44,7 @@ module TicTacToe
                 @correct_input = false
                 until @correct_input
                     puts "In loop now"
-                    user_move = '1 1'
+                    user_move = gets.chomp
                     if correct_input?(user_move)
 
                         if available_position?(user_move,@table.array_table)
@@ -63,18 +63,13 @@ module TicTacToe
                     
 
                 end
+
+                switch_players
                 @table.print_table
                 puts "I checked inputs and updated table and class variables"
                 @@someone_won = @table.check_winner
 
-                # Update table
-
-                # Check if current state correspond with winning situation
-                    # Finish game if there is a winner
                 
-                # Check if the avaible positions in the table are at least one
-                    # Finish the game if no position availables
-                # Display current status of the table
 
 
             end
@@ -107,6 +102,10 @@ module TicTacToe
                 return true
             end
         end
+
+        def switch_players
+            @current_player = (@current_player == @player1) ? @player2 : @player1
+          end
 
 
     end
