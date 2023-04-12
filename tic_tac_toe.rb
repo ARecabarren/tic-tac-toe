@@ -42,22 +42,16 @@ module TicTacToe
 
                 #Check correct input
                 @correct_input = false
-                unless @correct_input
+                until @correct_input
                     puts "In loop now"
-                    begin
-                        user_move = '1 1'
-                        if correct_input?(user_move)
-                            @table.update_table(user_move, @current_turn.symbol)
-                            correct_input = true
-                            
-                        else
-                            exception 'Incorrect input'
-                            correct_input = true
-                        end
-                    rescue => exception
+                    user_move = '1 1'
+                    if correct_input?(user_move)
+                        @table.update_table(user_move, @current_turn.symbol)
+                        @correct_input = true  
+                    else
                         puts "Please write a appropiate input. Two number separated by a whitespace"
-                        correct_input = true
                     end
+                    
                     @table.print_table
 
                 end
