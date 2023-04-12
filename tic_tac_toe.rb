@@ -1,5 +1,3 @@
-# require 'pry-byebug'
-
 module TicTacToe
     class Game
         @@someone_won = false
@@ -9,10 +7,10 @@ module TicTacToe
             puts "Welcome to Tic-Tac-Toe!"
 
             puts "Insert 1st player name"
-            player1_name = 'alvaro'
+            player1_name = gets.chomp
 
             puts "Insert 2nd player name"
-            player2_name = 'renata'
+            player2_name = gets.chomp
 
             puts "Starting game between #{player1_name} and #{player2_name}"
 
@@ -21,8 +19,9 @@ module TicTacToe
             @table = Table.new
             @current_turn = who_starts
             puts "Tossing a coin..."
-            1.times do 
+            2.times do 
                 sleep 1
+                puts '.'
                 puts '.'
             end
 
@@ -34,10 +33,10 @@ module TicTacToe
         end
 
         def run_game
-
+            @table.print_table
             until @@someone_won || @@availables_position == 0
                 puts "#{@current_turn.name} turn, choose a position"
-                puts "Indicates position as a coordinate separated by a white space. Example: 1 1 (First column - First row)"
+                puts "Indicates position as a coordinate separated by a white space.\nExample: 1 1 (First column - First row)"
                 
 
                 #Check correct input
@@ -78,6 +77,7 @@ module TicTacToe
                 puts "Congratulations #{@current_turn.name}"
             else
                 puts "It's a tie..."
+            end
             
         end 
 
@@ -181,6 +181,3 @@ module TicTacToe
 
 include TicTacToe
 Game.new()
-
-# alvaro = Player.new('Alvaro','X')
-# puts alvaro.name
