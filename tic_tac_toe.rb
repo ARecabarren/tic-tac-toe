@@ -3,7 +3,7 @@
 module TicTacToe
     class Game
         @@someone_won = false
-
+        @@availables_position = 9
         def initialize
 
             puts "Welcome to Tic-Tac-Toe!"
@@ -35,7 +35,7 @@ module TicTacToe
 
         def run_game
 
-            unless @@someone_won
+            until @@someone_won || @@availables_position == 0
                 puts "#{@current_turn.name} turn, choose a position"
                 puts "Indicates position as a coordinate separated by a white space. Example: 1 1 (First column - First row)"
                 
@@ -46,8 +46,16 @@ module TicTacToe
                     puts "In loop now"
                     user_move = '1 1'
                     if correct_input?(user_move)
-                        @table.update_table(user_move, @current_turn.symbol)
-                        @correct_input = true  
+
+                        if available_position?(user_move,@table.array_table)
+                            @table.update_table(user_move, @current_turn.symbol)
+                            @@availables_position -= 1
+                            @correct_input = true
+                        else
+                            puts 'Unavailable position'
+                            puts 'Please indicates other coordinate'
+                        end
+
                     else
                         puts "Please write a appropiate input. Two number separated by a whitespace"
                     end
@@ -87,6 +95,17 @@ module TicTacToe
             return true
         end
 
+        def available_position?(user_move,array_table)
+            row = (user_move[0].to_i) -1
+            column = (user_move[2].to_i) -1
+            if array_table[row][column] != '_' 
+
+                return false
+            else
+                return true
+            end
+        end
+    end
     end
 
     class Player
@@ -99,7 +118,7 @@ module TicTacToe
     end
 
     class Table
-        
+        attr_reader :array_table
 
         def initialize()
             @array_table = [['_','_','_'],['_','_','_'],['_','_','_']]
@@ -130,7 +149,7 @@ module TicTacToe
     end
     
     
-end
+
 
 include TicTacToe
 Game.new()
