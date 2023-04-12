@@ -60,11 +60,13 @@ module TicTacToe
                         puts "Please write a appropiate input. Two number separated by a whitespace"
                     end
                     
-                    @table.print_table
+                    
 
                 end
+                @table.print_table
+                puts "I checked inputs and updated table and class variables"
+                @@someone_won = @table.check_winner
 
-                puts "I exit from the unless"
                 # Update table
 
                 # Check if current state correspond with winning situation
@@ -105,6 +107,8 @@ module TicTacToe
                 return true
             end
         end
+
+
     end
     end
 
@@ -119,7 +123,6 @@ module TicTacToe
 
     class Table
         attr_reader :array_table
-
         def initialize()
             @array_table = [['_','_','_'],['_','_','_'],['_','_','_']]
         end
@@ -139,15 +142,36 @@ module TicTacToe
 
         def check_winner()
             # Win cases
-            upper_row = @array_table[0]
-            middle_row = @array_table[1]
-            down_row = @array_table[2]
-            left_column = [3.times {}]
+            win_cases = {upper_row: @array_table[0], middle_row: @array_table[1],
+                down_row: @array_table[2], left_column: [@array_table[0][0],@array_table[1][0],@array_table[2][0]], 
+                center_column: [@array_table[0][1],@array_table[1][1],@array_table[2][1]],
+                right_column: [@array_table[0][2],@array_table[1][2],@array_table[2][2]],
+                down_up_diagonal: [@array_table[2][0],@array_table[1][1],@array_table[0][2]],
+                up_down_diagonal: [@array_table[0][0],@array_table[1][1],@array_table[2][2]]}
+
+            win_cases.each do |key,value|
+                reduced_array = value.uniq
+                if reduced_array.uniq.length == 1 && reduced_array[0] != '_'
+                    return true
+                end
+            end
+
+            return false
+            # upper_row = @array_table[0]
+            # middle_row = @array_table[1]
+            # down_row = @array_table[2]
+            # left_column = [@array_table[0][0],@array_table[1][0],@array_table[2][0]]
+            # center_column = [@array_table[0][1],@array_table[1][1],@array_table[2][1]]
+            # right_column = [@array_table[0][2],@array_table[1][2],@array_table[2][2]]
+            # down_up_diagonal = [@array_table[2][0],@array_table[1][1],@array_table[0][2]]
+            # up_down_diagonal = [@array_table[0][0],@array_table[1][1],@array_table[2][2]]
+
+
         
         end
 
     end
-    
+
     
 
 
