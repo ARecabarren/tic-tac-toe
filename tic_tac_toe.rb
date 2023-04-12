@@ -1,3 +1,5 @@
+# require 'pry-byebug'
+
 module TicTacToe
     class Game
         @@someone_won = false
@@ -7,36 +9,60 @@ module TicTacToe
             puts "Welcome to Tic-Tac-Toe!"
 
             puts "Insert 1st player name"
-            player1_name = gets.chomp
+            player1_name = 'alvaro'
 
             puts "Insert 2nd player name"
-            player2_name = gets.chomp
+            player2_name = 'renata'
 
             puts "Starting game between #{player1_name} and #{player2_name}"
 
             @player1 = Player.new(player1_name, 'X')
             @player2 = Player.new(player2_name, 'O')
             @table = Table.new
-
             @current_turn = who_starts
             puts "Tossing a coin..."
-            3.times do 
+            1.times do 
                 sleep 1
                 puts '.'
             end
-            
 
-            run_game(@current_turn)
+            run_game
+        end
+
+        def who_starts
+            rand(0..1) == 1 ? @player1 : @player2
         end
 
         def run_game
 
-            unless someone_won
+            unless @@someone_won
                 puts "#{@current_turn.name} turn, choose a position"
                 puts "Indicates position as a coordinate separated by a white space. Example: 1 1 (First column - First row)"
+                
 
                 #Check correct input
+                @correct_input = false
+                unless @correct_input
+                    puts "In loop now"
+                    begin
+                        user_move = '1 1'
+                        if correct_input?(user_move)
+                            @table.update_table(user_move, @current_turn.symbol)
+                            correct_input = true
+                            
+                        else
+                            exception 'Incorrect input'
+                            correct_input = true
+                        end
+                    rescue => exception
+                        puts "Please write a appropiate input. Two number separated by a whitespace"
+                        correct_input = true
+                    end
+                    @table.print_table
 
+                end
+
+                puts "I exit from the unless"
                 # Update table
 
                 # Check if current state correspond with winning situation
@@ -49,13 +75,23 @@ module TicTacToe
 
             end
             
-        end
+        end 
 
-        def who_starts
-            rand(0..1) == 1 ? @player1 : @player2
-        end
+        def correct_input?(user_move)
 
-        
+            if user_move.length != 3
+                return false
+            elsif user_move[1] != ' '
+                return false
+            end
+
+            [0,2].each do |position|
+                unless user_move[position].to_i.between?(1,3)
+                    return false
+                end
+            end
+            return true
+        end
 
     end
 
@@ -82,8 +118,10 @@ module TicTacToe
             return "Current state"
         end
 
-        def update_table()
-            
+        def update_table(move_as_array, player_symbol)
+            row = move_as_array[0].to_i - 1
+            column = move_as_array[2].to_i - 1
+            @array_table[row][column] = player_symbol
         end
 
         def check_winner()
@@ -105,4 +143,3 @@ Game.new()
 
 # alvaro = Player.new('Alvaro','X')
 # puts alvaro.name
-puts " #{table[0]} \n #{table[1]} \n #{table[2]}"
